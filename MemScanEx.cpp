@@ -129,10 +129,10 @@ void CMemScanEx::GetScanRange(DWORD& dwStart, DWORD& dwEnd) {
     dwEnd = dwScanEndAddress_;
 }
 
-inline bool CMemScanEx::isHexChar(char c) {
+bool CMemScanEx::isHexChar(char c) {
     return (c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f');
 }
 
-inline BYTE CMemScanEx::getByte(const std::string& byteString) {
+BYTE CMemScanEx::getByte(const std::string& byteString) {
     return (BYTE)std::stoi(byteString, nullptr, 16);
 }

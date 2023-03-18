@@ -156,11 +156,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
+    <ClInclude Include="MemCtrlAPI.h" />
     <ClInclude Include="MemCtrlEx.h" />
     <ClInclude Include="MemScanEx.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="MemCtrlAPI.cpp" />
     <ClCompile Include="MemCtrlEx.cpp" />
     <ClCompile Include="MemScanEx.cpp" />
   </ItemGroup>
