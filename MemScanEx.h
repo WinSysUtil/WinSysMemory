@@ -6,34 +6,6 @@
 #include <vector>
 #include <string>
 
-#ifdef min
-#undef min
-#endif
-
-#ifdef PROCESSENTRY32
-#undef PROCESSENTRY32
-#endif
-
-#ifdef Process32First
-#undef Process32First
-#endif
-
-#ifdef Process32Next
-#undef Process32Next
-#endif
-
-#ifdef MODULEENTRY32
-#undef MODULEENTRY32
-#endif
-
-#ifdef Module32First
-#undef Module32First
-#endif
-
-#ifdef Module32Next
-#undef Module32Next
-#endif
-
 class CMemScanEx {
 public:
     /**

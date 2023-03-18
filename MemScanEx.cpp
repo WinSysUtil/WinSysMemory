@@ -1,5 +1,33 @@
 ﻿#include "MemScanEx.h"
 
+#ifdef min
+#undef min
+#endif
+
+#ifdef PROCESSENTRY32
+#undef PROCESSENTRY32
+#endif
+
+#ifdef Process32First
+#undef Process32First
+#endif
+
+#ifdef Process32Next
+#undef Process32Next
+#endif
+
+#ifdef MODULEENTRY32
+#undef MODULEENTRY32
+#endif
+
+#ifdef Module32First
+#undef Module32First
+#endif
+
+#ifdef Module32Next
+#undef Module32Next
+#endif
+
 bool CMemScanEx::Open(const std::string& processName) {
     HANDLE snapHandle = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
     if (snapHandle == INVALID_HANDLE_VALUE)
