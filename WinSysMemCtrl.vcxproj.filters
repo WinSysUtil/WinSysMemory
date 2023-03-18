@@ -21,12 +21,18 @@
     <ClInclude Include="MemCtrlEx.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="MemScanEx.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="MemCtrlEx.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="MemScanEx.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

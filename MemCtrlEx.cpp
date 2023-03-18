@@ -1,7 +1,28 @@
-#include "MemCtrlEx.h"\
+﻿#include "MemCtrlEx.h"
+#include <iostream>
 
 #include<psapi.h>
 #pragma comment(lib, "psapi.lib")
+
+CMemCtrlEx g_MemCtrl;
+
+struct AobScanData {
+    DWORD dwStart;
+    DWORD dwEnd;
+    BYTE* SearchBytes;
+    int m;
+    int Result;
+    DWORD dwResult;
+
+    AobScanData(DWORD dwStart, DWORD dwEnd, BYTE* SearchBytes, int m, int Result) {
+        this->dwStart = dwStart;
+        this->dwEnd = dwEnd;
+        this->SearchBytes = SearchBytes;
+        this->m = m;
+        this->Result = Result;
+        this->dwResult = NULL;
+    }
+};
 
 // Constructor
 CMemCtrlEx::CMemCtrlEx() {
@@ -48,29 +69,60 @@ void CMemCtrlEx::CreateMemoryDump() {
 DWORD CMemCtrlEx::AobScan(char* Aob, int Result) {
     int i, j, k = 0;
     int m = strlen(Aob);
-    BYTE* DumpBytes = (BYTE*)MemoryDump;
     BYTE* SearchBytes = new BYTE[m];
+    memcpy(SearchBytes, Aob, m);
 
-    for (i = 0; i < m; i++) {
-        if (Aob[i] == ' ') {
-            i++;
-        }
-        SearchBytes[k] = (BYTE)((Aob[i] >= 'A') ? (Aob[i] & 0xdf) - 'A' + 10 : (Aob[i] - '0'));
-        i++;
-        SearchBytes[k] <<= 4;
-        SearchBytes[k] |= (BYTE)((Aob[i] >= 'A') ? (Aob[i] & 0xdf) - 'A' + 10 : (Aob[i] - '0'));
-        k++;
+    DWORD dwResult = NULL;
+    const int THREAD_COUNT = 4;
+    HANDLE hThreads[THREAD_COUNT];
+    DWORD dwThreadIds[THREAD_COUNT];
+    DWORD dwChunkSize = (Memory_End - Memory_Start - m) / THREAD_COUNT;
+
+    for (i = 0; i < THREAD_COUNT; i++) {
+        DWORD dwStart = Memory_Start + i * dwChunkSize;
+        DWORD dwEnd = (i == THREAD_COUNT - 1) ? Memory_End - m : dwStart + dwChunkSize - m;
+        DWORD dwThreadId;
+        hThreads[i] = CreateThread(NULL, NULL, (&CMemCtrlEx::AobScanThread), (LPVOID)new AobScanData(dwStart, dwEnd, SearchBytes, m, Result), 0, &dwThreadId);
+        dwThreadIds[i] = dwThreadId;
     }
-    for (i = 0; i < Memory_End - Memory_Start - m; i++) {
-        if (memcmp(&DumpBytes[i], SearchBytes, m) == 0) {
+
+    WaitForMultipleObjects(THREAD_COUNT, hThreads, TRUE, INFINITE);
+
+    for (i = 0; i < THREAD_COUNT; i++) {
+        DWORD dwThreadId = dwThreadIds[i];
+        AobScanData* pData = NULL;
+        GetExitCodeThread(hThreads[i], (LPDWORD)&pData);
+        dwResult = pData->dwResult;
+        delete pData;
+        CloseHandle(hThreads[i]);
+    }
+
+    delete[] SearchBytes;
+    return dwResult;
+}
+
+DWORD WINAPI CMemCtrlEx::AobScanThread(LPVOID lpParam) {
+    AobScanData* pData = (AobScanData*)lpParam;
+    int i, j, k = 0;
+    int m = pData->m;
+    BYTE* SearchBytes = pData->SearchBytes;
+    DWORD dwStart = pData->dwStart;
+    DWORD dwEnd = pData->dwEnd;
+    int Result = pData->Result;
+
+    BYTE* DumpBytes = (BYTE*)g_MemCtrl.MemoryDump;
+
+    for (i = dwStart; i < dwEnd; i++) {
+        if (memcmp(&DumpBytes[i - g_MemCtrl.Memory_Start], SearchBytes, m) == 0) {
             if (Result == 0 || Result == 1) {
-                delete[] SearchBytes;
-                return (DWORD)&DumpBytes[i];
+                delete pData;
+                return i;
             }
             Result--;
         }
     }
-    delete[] SearchBytes;
+
+    delete pData;
     return NULL;
 }
 

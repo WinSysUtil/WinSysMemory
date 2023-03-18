@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <Windows.h>
 
 #define MaxSize 256
@@ -9,118 +9,119 @@
 #define JE 0x840F
 
 /**
- * @brief CMemCtrlEx Å¬·¡½º
+ * @brief CMemCtrlEx í´ë˜ìŠ¤
  */
 class CMemCtrlEx {
 public:
     /**
-     * @brief »ı¼ºÀÚ
+     * @brief ìƒì„±ì
      */
     CMemCtrlEx();
 
     /**
-     * @brief CMemCtrlEx¸¦ ÃÊ±âÈ­ÇÏ°í ¸ğµâ Á¤º¸¸¦ °¡Á®¿É´Ï´Ù.
+     * @brief CMemCtrlExë¥¼ ì´ˆê¸°í™”í•˜ê³  ëª¨ë“ˆ ì •ë³´ë¥¼ ê°€ì ¸ì˜µë‹ˆë‹¤.
      *
-     * @param ModuleName °¡Á®¿Ã ¸ğµâÀÇ ÀÌ¸§ÀÔ´Ï´Ù. NULLÀÏ °æ¿ì ÇöÀç ÇÁ·Î¼¼½º¸¦ °¡Á®¿É´Ï´Ù.
+     * @param ModuleName ê°€ì ¸ì˜¬ ëª¨ë“ˆì˜ ì´ë¦„ì…ë‹ˆë‹¤. NULLì¼ ê²½ìš° í˜„ì¬ í”„ë¡œì„¸ìŠ¤ë¥¼ ê°€ì ¸ì˜µë‹ˆë‹¤.
      */
     virtual void Init(char* ModuleName);
 
     /**
-     * @brief ¸Ş¸ğ¸® ´ıÇÁ¸¦ »ı¼ºÇÕ´Ï´Ù.
+     * @brief ë©”ëª¨ë¦¬ ë¤í”„ë¥¼ ìƒì„±í•©ë‹ˆë‹¤.
      */
     virtual void CreateMemoryDump();
 
     /**
-     * @brief ¸Ş¸ğ¸® ´ıÇÁ¿¡¼­ Æ¯Á¤ ÆĞÅÏÀÇ ¹ÙÀÌÆ®¸¦ °Ë»öÇÕ´Ï´Ù.
+     * @brief ë©”ëª¨ë¦¬ ë¤í”„ì—ì„œ íŠ¹ì • íŒ¨í„´ì˜ ë°”ì´íŠ¸ë¥¼ ê²€ìƒ‰í•©ë‹ˆë‹¤.
      *
-     * @param Aob °Ë»öÇÒ ÆĞÅÏÀ» ³ªÅ¸³»´Â ¹®ÀÚ¿­ÀÔ´Ï´Ù.
-     * @param Result °Ë»ö °á°ú¿¡¼­ ¸î ¹øÂ° °ªÀ» ¹İÈ¯ÇÒÁö¸¦ °áÁ¤ÇÕ´Ï´Ù.
-     * @return DWORD °Ë»öµÈ ¸Ş¸ğ¸® ÁÖ¼Ò¸¦ ¹İÈ¯ÇÕ´Ï´Ù.
+     * @param Aob ê²€ìƒ‰í•  íŒ¨í„´ì„ ë‚˜íƒ€ë‚´ëŠ” ë¬¸ìì—´ì…ë‹ˆë‹¤.
+     * @param Result ê²€ìƒ‰ ê²°ê³¼ì—ì„œ ëª‡ ë²ˆì§¸ ê°’ì„ ë°˜í™˜í• ì§€ë¥¼ ê²°ì •í•©ë‹ˆë‹¤.
+     * @return DWORD ê²€ìƒ‰ëœ ë©”ëª¨ë¦¬ ì£¼ì†Œë¥¼ ë°˜í™˜í•©ë‹ˆë‹¤.
      */
     virtual DWORD AobScan(char* Aob, int Result);
+    static DWORD WINAPI AobScanThread(LPVOID lpParam);
 
     /**
-     * @brief ¸Ş¸ğ¸® ÁÖ¼Ò dwAddr¿¡ Code °ªÀ» ¾¹´Ï´Ù.
+     * @brief ë©”ëª¨ë¦¬ ì£¼ì†Œ dwAddrì— Code ê°’ì„ ì”ë‹ˆë‹¤.
      *
-     * @param dwAddr °ªÀ» ¾µ ¸Ş¸ğ¸® ÁÖ¼ÒÀÔ´Ï´Ù.
-     * @param Code ¾µ °ªÀ» ³ªÅ¸³»´Â ¹®ÀÚ¿­ÀÔ´Ï´Ù.
-     * @return true °ªÀ» ¾²´Âµ¥ ¼º°øÇÑ °æ¿ì ¹İÈ¯ÇÕ´Ï´Ù.
-     * @return false °ªÀ» ¾²´Âµ¥ ½ÇÆĞÇÑ °æ¿ì ¹İÈ¯ÇÕ´Ï´Ù.
+     * @param dwAddr ê°’ì„ ì“¸ ë©”ëª¨ë¦¬ ì£¼ì†Œì…ë‹ˆë‹¤.
+     * @param Code ì“¸ ê°’ì„ ë‚˜íƒ€ë‚´ëŠ” ë¬¸ìì—´ì…ë‹ˆë‹¤.
+     * @return true ê°’ì„ ì“°ëŠ”ë° ì„±ê³µí•œ ê²½ìš° ë°˜í™˜í•©ë‹ˆë‹¤.
+     * @return false ê°’ì„ ì“°ëŠ”ë° ì‹¤íŒ¨í•œ ê²½ìš° ë°˜í™˜í•©ë‹ˆë‹¤.
      */
     virtual bool MemoryWriter(DWORD dwAddr, char* Code);
 
     /**
-     * @brief ¸Ş¸ğ¸® ÁÖ¼Ò dwAddrºÎÅÍ dwSize ¸¸Å­À» º¹¿øÇÕ´Ï´Ù.
+     * @brief ë©”ëª¨ë¦¬ ì£¼ì†Œ dwAddrë¶€í„° dwSize ë§Œí¼ì„ ë³µì›í•©ë‹ˆë‹¤.
      *
-     * @param dwAddr °ªÀ» º¹¿øÇÒ ¸Ş¸ğ¸® ÁÖ¼ÒÀÔ´Ï´Ù.
-     * @param dwSize º¹¿øÇÒ °ªÀÇ Å©±âÀÔ´Ï´Ù.
-     * @return true °ªÀ» º¹¿øÇÏ´Âµ¥ ¼º°øÇÑ °æ¿ì ¹İÈ¯ÇÕ´Ï´Ù.
-     * @return false °ªÀ» º¹¿øÇÏ´Âµ¥ ½ÇÆĞÇÑ °æ¿ì ¹İÈ¯ÇÕ´Ï´Ù.
+     * @param dwAddr ê°’ì„ ë³µì›í•  ë©”ëª¨ë¦¬ ì£¼ì†Œì…ë‹ˆë‹¤.
+     * @param dwSize ë³µì›í•  ê°’ì˜ í¬ê¸°ì…ë‹ˆë‹¤.
+     * @return true ê°’ì„ ë³µì›í•˜ëŠ”ë° ì„±ê³µí•œ ê²½ìš° ë°˜í™˜í•©ë‹ˆë‹¤.
+     * @return false ê°’ì„ ë³µì›í•˜ëŠ”ë° ì‹¤íŒ¨í•œ ê²½ìš° ë°˜í™˜í•©ë‹ˆë‹¤.
      */
     virtual bool RestoreMemory(DWORD dwAddr, DWORD dwSize);
 
     /**
-     * @brief dwPrev À§Ä¡¿¡ dwNext ÇÔ¼ö¸¦ È£ÃâÇÏ´Â HookÀ» ÀÛ¼ºÇÕ´Ï´Ù.
+     * @brief dwPrev ìœ„ì¹˜ì— dwNext í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•˜ëŠ” Hookì„ ì‘ì„±í•©ë‹ˆë‹¤.
      *
-     * @param dwPrev HookÀ» ÀÛ¼ºÇÒ ¸Ş¸ğ¸® ÁÖ¼ÒÀÔ´Ï´Ù.
-     * @param OpCode HookÀ» ÀÛ¼ºÇÒ ÄÚµåÀÔ´Ï´Ù.
-     * @param dwNext Hook¿¡¼­ È£ÃâÇÒ ÇÔ¼öÀÔ´Ï´Ù.
-     * @param RetAddr dwPrev + 5 °ªÀÌ ÀúÀåµÇ´Â º¯¼öÀÔ´Ï´Ù. NULLÀÏ °æ¿ì »ı·«µË´Ï´Ù.
-     * @param dwAdd dwNext ÇÔ¼ö ³»¿¡¼­ °è»êÇÒ ÁÖ¼Ò°ªÀÔ´Ï´Ù.
-     * @return true HookÀ» ÀÛ¼ºÇÏ´Âµ¥ ¼º°øÇÑ °æ¿ì ¹İÈ¯ÇÕ´Ï´Ù.
-     * @return false HookÀ» ÀÛ¼ºÇÏ´Âµ¥ ½ÇÆĞÇÑ °æ¿ì ¹İÈ¯ÇÕ´Ï´Ù.
+     * @param dwPrev Hookì„ ì‘ì„±í•  ë©”ëª¨ë¦¬ ì£¼ì†Œì…ë‹ˆë‹¤.
+     * @param OpCode Hookì„ ì‘ì„±í•  ì½”ë“œì…ë‹ˆë‹¤.
+     * @param dwNext Hookì—ì„œ í˜¸ì¶œí•  í•¨ìˆ˜ì…ë‹ˆë‹¤.
+     * @param RetAddr dwPrev + 5 ê°’ì´ ì €ì¥ë˜ëŠ” ë³€ìˆ˜ì…ë‹ˆë‹¤. NULLì¼ ê²½ìš° ìƒëµë©ë‹ˆë‹¤.
+     * @param dwAdd dwNext í•¨ìˆ˜ ë‚´ì—ì„œ ê³„ì‚°í•  ì£¼ì†Œê°’ì…ë‹ˆë‹¤.
+     * @return true Hookì„ ì‘ì„±í•˜ëŠ”ë° ì„±ê³µí•œ ê²½ìš° ë°˜í™˜í•©ë‹ˆë‹¤.
+     * @return false Hookì„ ì‘ì„±í•˜ëŠ”ë° ì‹¤íŒ¨í•œ ê²½ìš° ë°˜í™˜í•©ë‹ˆë‹¤.
      */
     virtual bool WriteHook(DWORD dwPrev, WORD OpCode, void(*dwNext)(), DWORD* RetAddr, DWORD dwAdd);
 
     /**
-     * @brief Memory_Start, Memory_End, MemoryDump °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù.
+     * @brief Memory_Start, Memory_End, MemoryDump ê°’ì„ ë°˜í™˜í•©ë‹ˆë‹¤.
      *
-     * @param MS ¸Ş¸ğ¸® ½ÃÀÛ ÁÖ¼Ò°ªÀ» ÀúÀåÇÒ º¯¼öÀÔ´Ï´Ù.
-     * @param ME ¸Ş¸ğ¸® ³¡ ÁÖ¼Ò°ªÀ» ÀúÀåÇÒ º¯¼öÀÔ´Ï´Ù.
-     * @param MD ¸Ş¸ğ¸® ´ıÇÁ ÁÖ¼Ò°ªÀ» ÀúÀåÇÒ º¯¼öÀÔ´Ï´Ù.
+     * @param MS ë©”ëª¨ë¦¬ ì‹œì‘ ì£¼ì†Œê°’ì„ ì €ì¥í•  ë³€ìˆ˜ì…ë‹ˆë‹¤.
+     * @param ME ë©”ëª¨ë¦¬ ë ì£¼ì†Œê°’ì„ ì €ì¥í•  ë³€ìˆ˜ì…ë‹ˆë‹¤.
+     * @param MD ë©”ëª¨ë¦¬ ë¤í”„ ì£¼ì†Œê°’ì„ ì €ì¥í•  ë³€ìˆ˜ì…ë‹ˆë‹¤.
      */
     virtual void GetDumpInfo(DWORD* MS, DWORD* ME, DWORD* MD);
 
     /**
-     * @brief BaseAddress °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù.
+     * @brief BaseAddress ê°’ì„ ë°˜í™˜í•©ë‹ˆë‹¤.
      *
-     * @return DWORD BaseAddress °ªÀ» ¹İÈ¯ÇÕ´Ï´Ù.
+     * @return DWORD BaseAddress ê°’ì„ ë°˜í™˜í•©ë‹ˆë‹¤.
      */
     virtual DWORD GetBaseAddress();
 
     /**
-     * @brief dwPointer À§Ä¡¿¡¼­ OldFunction °ªÀ» NewFunctionÀ¸·Î º¯°æÇÕ´Ï´Ù.
+     * @brief dwPointer ìœ„ì¹˜ì—ì„œ OldFunction ê°’ì„ NewFunctionìœ¼ë¡œ ë³€ê²½í•©ë‹ˆë‹¤.
      *
-     * @param dwPointer °ªÀ» º¯°æÇÒ ¸Ş¸ğ¸® ÁÖ¼ÒÀÔ´Ï´Ù.
-     * @param NewFunction º¯°æÇÒ ÇÔ¼öÀÔ´Ï´Ù.
-     * @param OldFunction º¯°æ Àü ÇÔ¼öÀÇ ÁÖ¼ÒÀÔ´Ï´Ù. NULLÀÏ °æ¿ì »ı·«µË´Ï´Ù.
+     * @param dwPointer ê°’ì„ ë³€ê²½í•  ë©”ëª¨ë¦¬ ì£¼ì†Œì…ë‹ˆë‹¤.
+     * @param NewFunction ë³€ê²½í•  í•¨ìˆ˜ì…ë‹ˆë‹¤.
+     * @param OldFunction ë³€ê²½ ì „ í•¨ìˆ˜ì˜ ì£¼ì†Œì…ë‹ˆë‹¤. NULLì¼ ê²½ìš° ìƒëµë©ë‹ˆë‹¤.
      */
     virtual void PointerHook(DWORD dwPointer, void(*NewFunction)(), DWORD* OldFunction);
 
     /**
-     * @brief VirtualQuery ÇÔ¼ö¸¦ ÀÌ¿ëÇØ ¸Ş¸ğ¸® º¸È£ ¼Ó¼ºÀ» È®ÀÎÇÏ°í HookÀ» ÀÛ¼ºÇÕ´Ï´Ù.
+     * @brief VirtualQuery í•¨ìˆ˜ë¥¼ ì´ìš©í•´ ë©”ëª¨ë¦¬ ë³´í˜¸ ì†ì„±ì„ í™•ì¸í•˜ê³  Hookì„ ì‘ì„±í•©ë‹ˆë‹¤.
      *
-     * @param dwFunction HookÇÒ ÇÔ¼öÀÇ ÁÖ¼ÒÀÔ´Ï´Ù.
-     * @param dwNext Hook¿¡¼­ È£ÃâÇÒ ÇÔ¼öÀÔ´Ï´Ù.
-     * @param RetAddr dwPrev + 5 °ªÀÌ ÀúÀåµÇ´Â º¯¼öÀÔ´Ï´Ù. NULLÀÏ °æ¿ì »ı·«µË´Ï´Ù.
-     * @return DWORD HookÀÌ ÀÛ¼ºµÈ ¸Ş¸ğ¸® ÁÖ¼Ò¸¦ ¹İÈ¯ÇÕ´Ï´Ù.
+     * @param dwFunction Hookí•  í•¨ìˆ˜ì˜ ì£¼ì†Œì…ë‹ˆë‹¤.
+     * @param dwNext Hookì—ì„œ í˜¸ì¶œí•  í•¨ìˆ˜ì…ë‹ˆë‹¤.
+     * @param RetAddr dwPrev + 5 ê°’ì´ ì €ì¥ë˜ëŠ” ë³€ìˆ˜ì…ë‹ˆë‹¤. NULLì¼ ê²½ìš° ìƒëµë©ë‹ˆë‹¤.
+     * @return DWORD Hookì´ ì‘ì„±ëœ ë©”ëª¨ë¦¬ ì£¼ì†Œë¥¼ ë°˜í™˜í•©ë‹ˆë‹¤.
      */
     virtual DWORD AutoVMHook(DWORD dwFunction, void(*dwNext)(), DWORD* RetAddr);
 
-private:
-    DWORD BaseAddress; /**< ¸ğµâÀÇ º£ÀÌ½º ÁÖ¼ÒÀÔ´Ï´Ù. */
-    DWORD Memory_Start; /**< ¸Ş¸ğ¸® ½ÃÀÛ ÁÖ¼ÒÀÔ´Ï´Ù. */
-    DWORD Memory_End; /**< ¸Ş¸ğ¸® ³¡ ÁÖ¼ÒÀÔ´Ï´Ù. */
-    DWORD MemoryDump; /**< ¸Ş¸ğ¸® ´ıÇÁ ÁÖ¼ÒÀÔ´Ï´Ù. */
-    bool IsDLL; /**< DLL ¿©ºÎÀÔ´Ï´Ù. */
-    DWORD OldAddr; /**< ÀÌÀü ÁÖ¼ÒÀÔ´Ï´Ù. */
-    DWORD OldSize; /**< ÀÌÀü Å©±âÀÔ´Ï´Ù. */
-    DWORD OldProtect; /**< ÀÌÀü º¸È£ ¼Ó¼ºÀÔ´Ï´Ù. */
+public:
+    DWORD BaseAddress; /**< ëª¨ë“ˆì˜ ë² ì´ìŠ¤ ì£¼ì†Œì…ë‹ˆë‹¤. */
+    DWORD Memory_Start; /**< ë©”ëª¨ë¦¬ ì‹œì‘ ì£¼ì†Œì…ë‹ˆë‹¤. */
+    DWORD Memory_End; /**< ë©”ëª¨ë¦¬ ë ì£¼ì†Œì…ë‹ˆë‹¤. */
+    DWORD MemoryDump; /**< ë©”ëª¨ë¦¬ ë¤í”„ ì£¼ì†Œì…ë‹ˆë‹¤. */
+    bool IsDLL; /**< DLL ì—¬ë¶€ì…ë‹ˆë‹¤. */
+    DWORD OldAddr; /**< ì´ì „ ì£¼ì†Œì…ë‹ˆë‹¤. */
+    DWORD OldSize; /**< ì´ì „ í¬ê¸°ì…ë‹ˆë‹¤. */
+    DWORD OldProtect; /**< ì´ì „ ë³´í˜¸ ì†ì„±ì…ë‹ˆë‹¤. */
 };
 
 
 
-// ¿¹Á¦ÄÚµå
+// ì˜ˆì œì½”ë“œ
 /**
 
 int main(){
