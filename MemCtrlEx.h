@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "MemScanEx.h"
+#include <sstream>
 
 #define MaxSize 256
 
@@ -35,7 +36,7 @@ public:
      * @param Code 쓸 내용
      * @return 쓰기 성공 여부
      */
-    virtual bool MemoryWriter(DWORD dwAddr, char* Code);
+    virtual bool MemoryWriter(DWORD dwAddr, const char* strCode);
 
     /**
      * @brief 메모리 복원

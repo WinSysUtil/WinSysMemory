@@ -14,9 +14,18 @@ void CMemCtrlEx::CreateMemoryDump() {
     delete[] buffer;
 }
 
-bool CMemCtrlEx::MemoryWriter(DWORD dwAddr, char* Code) {
+bool CMemCtrlEx::MemoryWriter(DWORD dwAddr, const char* strCode) {
+
+    std::string hexString = strCode;
+    std::istringstream iss(hexString);
+    std::vector<unsigned char> data;
+    unsigned int val;
+    while (iss >> std::hex >> val) {
+        data.push_back(val);
+    }
+
     DWORD dwOldProtect = 0;
-    if (WriteMemory((void*)dwAddr, Code, strlen(Code), PAGE_EXECUTE_READWRITE, &dwOldProtect)) {
+    if (WriteMemory((void*)dwAddr, data.data(), data.size(), PAGE_EXECUTE_READWRITE, &dwOldProtect)) {
         return true;
     }
     return false;
